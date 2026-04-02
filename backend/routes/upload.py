@@ -63,7 +63,6 @@ async def extract_text_from_file(content: bytes, filename: str) -> str:
 async def extract_pdf_text(content: bytes) -> str:
     """Extract text from PDF"""
     try:
-        # Try PyPDF2 first
         import PyPDF2
         import io
         
@@ -73,23 +72,7 @@ async def extract_pdf_text(content: bytes) -> str:
             page_text = page.extract_text()
             if page_text:
                 text += page_text + "\n"
-        
-        if text.strip():
-            return clean_text(text)
-        
-        # If PyPDF2 fails, try pdfplumber
-        try:
-            import pdfplumber
-            with pdfplumber.open(io.BytesIO(content)) as pdf:
-                for page in pdf.pages:
-                    page_text = page.extract_text()
-                    if page_text:
-                        text += page_text + "\n"
-            return clean_text(text)
-        except ImportError:
-            pass
-        
-        return text.strip()
+        return clean_text(text)
         
     except Exception as e:
         print(f"PDF extraction error: {e}")
@@ -106,7 +89,6 @@ async def extract_docx_text(content: bytes) -> str:
         for paragraph in doc.paragraphs:
             if paragraph.text.strip():
                 text += paragraph.text + "\n"
-        
         return clean_text(text)
         
     except Exception as e:
@@ -115,8 +97,6 @@ async def extract_docx_text(content: bytes) -> str:
 
 def clean_text(text: str) -> str:
     """Clean extracted text"""
-    # Remove extra whitespaces
     text = re.sub(r'\s+', ' ', text)
-    # Remove special characters
     text = re.sub(r'[^\w\s\.\,\-\#\+\(\)\/\@\:]', '', text)
     return text.strip()
