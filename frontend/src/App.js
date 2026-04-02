@@ -10,6 +10,9 @@ function App() {
   const [fileName, setFileName] = useState('');
   const [uploading, setUploading] = useState(false);
 
+  // ✅ HARDCODED BACKEND URL - CHANGE ONLY HERE IF NEEDED
+  const apiUrl = 'https://ats-resume-checker-api.onrender.com';
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -27,7 +30,6 @@ function App() {
     formData.append('file', file);
 
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
       const response = await fetch(`${apiUrl}/api/upload_resume`, {
         method: 'POST',
         body: formData,
@@ -41,6 +43,7 @@ function App() {
         setError('Failed to extract text from file');
       }
     } catch (error) {
+      console.error('Upload error:', error);
       setError('Error uploading file');
     } finally {
       setUploading(false);
@@ -57,7 +60,6 @@ function App() {
     setError('');
     
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
       const response = await fetch(`${apiUrl}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -76,6 +78,7 @@ function App() {
         setError('Analysis failed');
       }
     } catch (error) {
+      console.error('Analysis error:', error);
       setError('Cannot connect to backend');
     } finally {
       setLoading(false);
