@@ -10,7 +10,7 @@ function App() {
   const [fileName, setFileName] = useState('');
   const [uploading, setUploading] = useState(false);
 
-  // ✅ HARDCODED BACKEND URL - CHANGE ONLY HERE IF NEEDED
+  // ✅ Backend URL - CHANGE THIS IF NEEDED
   const apiUrl = 'https://ats-resume-checker-api.onrender.com';
 
   const handleFileUpload = async (event) => {
@@ -39,12 +39,13 @@ function App() {
       
       if (data.success) {
         setResumeText(data.extracted_text);
+        setError('');
       } else {
         setError('Failed to extract text from file');
       }
     } catch (error) {
       console.error('Upload error:', error);
-      setError('Error uploading file');
+      setError('Error uploading file. Make sure backend is running.');
     } finally {
       setUploading(false);
     }
@@ -74,12 +75,13 @@ function App() {
       if (data.success) {
         setScore(data.analysis.ats_score);
         setMissingKeywords(data.analysis.keyword_analysis?.missing_keywords || []);
+        setError('');
       } else {
-        setError('Analysis failed');
+        setError('Analysis failed: ' + (data.detail || 'Unknown error'));
       }
     } catch (error) {
       console.error('Analysis error:', error);
-      setError('Cannot connect to backend');
+      setError('Cannot connect to backend. Please try again.');
     } finally {
       setLoading(false);
     }
