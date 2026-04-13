@@ -1,13 +1,40 @@
-# Project Architecture
+# Project Architecture and Technical Documentation
 
-The architecture of this project is designed to be modular, ensuring that each component operates independently while effectively integrating within the larger system. Below are the core components of the architecture:
+## Overview
+This project is an automated resume checker that evaluates resumes against predefined criteria to help users improve their chances of landing job interviews.
 
-1. **Frontend**: Built using React, the frontend provides an intuitive user interface for users to upload resumes and view results.
- 
-2. **Backend**: The backend is developed using Node.js and Express, which handles API requests, processes resume data, and generates evaluations.
- 
-3. **Database**: MongoDB is employed as the database solution, storing user data and resume submissions efficiently.
- 
-4. **Integration with AI Services**: The system integrates with various AI assessment tools to provide insightful analysis of resumes, helping users improve their profiles.
- 
-5. **Deployment**: The application is containerized using Docker, facilitating seamless deployment in cloud environments.
+## Architecture Components
+
+1. **Frontend**: A user-friendly interface that allows users to upload their resumes and receive feedback.
+   - **Technologies Used**: HTML, CSS, JavaScript, React.js
+
+2. **Backend**: Handles the business logic and processing of uploaded resumes.
+   - **Technologies Used**: Node.js, Express.js
+   - **Business Logic**: Resume parsing and evaluation.
+
+3. **Database**: Stores user data and historical evaluations.
+   - **Database Used**: MongoDB
+   - **Schema**: User data, Resume submissions, Feedback history.
+
+4. **Algorithms**: Implements various natural language processing techniques to analyze resumes.
+   - **Libraries Used**: Natural, NLTK
+   - **Evaluation Metrics**: Keyword matching, readability score, etc.
+
+## Technical Documentation
+
+### Environment Setup
+1. Clone the repository.
+2. Install the required dependencies using `npm install`.
+3. Set up environment variables as mentioned in `.env.example`.
+4. Run the application using `npm start`.
+
+### API Endpoints
+- `POST /api/upload` - Endpoint for uploading the resume.
+- `GET /api/results/:userId` - Fetch evaluation results for a user.
+
+### Future Enhancements
+- Integration with popular job portals for direct application submission.
+- Adding machine learning features to improve resume evaluation based on user feedback.
+
+### Conclusion
+This README provides a comprehensive overview of the project architecture and details the technical aspects needed to setup, run, and understand the workings of the automated resume checker.
